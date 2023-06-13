@@ -1,9 +1,8 @@
 import pygame
 from pygame.sprite import Sprite
+from game.utils.constants import SPACESHIP, SCREEN_WIDTH, SCREEN_HEIGHT
 
-from game.utils.constants import SPACESHIP
-
-class Spaceship(Sprite):
+class Spaceship:
     def __init__(self):
         self.image = pygame.transform.scale(SPACESHIP, (60, 40))
         self.rect = self.image.get_rect()
@@ -12,8 +11,9 @@ class Spaceship(Sprite):
 
 
     def update(self, user_imput):
-        if user_imput[pygame.K_LEFT]:
+        if user_imput[pygame.K_a]:
             self.move_left()
+            print(user_imput)
         elif user_imput[pygame.K_RIGHT]:
             self.move_right()
         elif user_imput[pygame.K_UP]:
@@ -22,23 +22,25 @@ class Spaceship(Sprite):
             self.move_down()
             
     def move_left(self):
+        print("lef")
         if self.rect.left > 50:
             self.rect.x -= 10
     
     def move_right(self):
-        if self.rect.right > SCREEN_WIDTH - 50:
+        print("rig")
+        if self.rect.right < SCREEN_WIDTH:
             self.rect.x += 10
             
     def move_up(self):
-        if self.rect.y > SCREEN_HEIGT // 2:
+        print("above")
+        if self.rect.y > SCREEN_HEIGHT // 2:
             self.rect.y -= 10
             
     def move_down(self):
+        print("below")
         if self.rect.y < SCREEN_HEIGHT - 50: 
             self.rect.y += 10             
         
-        
-
 
     def draw(self, screen):
         jls_extract_var = (self.rect.x, self.rect.y)
