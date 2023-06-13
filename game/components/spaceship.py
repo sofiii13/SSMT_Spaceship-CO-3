@@ -9,40 +9,42 @@ class Spaceship:
         self.rect.x = 520
         self.rect.y = 500
 
-
-    def update(self, user_imput):
-        if user_imput[pygame.K_a]:
+    def update(self, user_input):
+        if user_input[pygame.K_a]:
             self.move_left()
-            print(user_imput)
-        elif user_imput[pygame.K_RIGHT]:
+            print(user_input)
+        elif user_input[pygame.K_d]:
             self.move_right()
-        elif user_imput[pygame.K_UP]:
+        elif user_input[pygame.K_w]:
             self.move_up()
-        elif user_imput[pygame.K_DOWN]:
+        elif user_input[pygame.K_s]:
             self.move_down()
             
     def move_left(self):
-        print("lef")
+        print("left")
         if self.rect.left > 50:
             self.rect.x -= 10
+        else:
+            self.rect.x = SCREEN_WIDTH - self.rect.width
     
     def move_right(self):
-        print("rig")
+        print("right")
         if self.rect.right < SCREEN_WIDTH:
             self.rect.x += 10
+        else:
+            self.rect.x = 0
             
     def move_up(self):
-        print("above")
-        if self.rect.y > SCREEN_HEIGHT // 2:
+        print("up")
+        if self.rect.top > SCREEN_HEIGHT //  2:
             self.rect.y -= 10
             
     def move_down(self):
-        print("below")
-        if self.rect.y < SCREEN_HEIGHT - 50: 
-            self.rect.y += 10             
+        print("down")
+        if self.rect.bottom < SCREEN_HEIGHT - 50:
+            self.rect.y += 10
         
-
     def draw(self, screen):
         jls_extract_var = (self.rect.x, self.rect.y)
-        screen.blit(self.image, jls_extract_var)
-        
+        screen.blit(self.image, self.rect)
+
