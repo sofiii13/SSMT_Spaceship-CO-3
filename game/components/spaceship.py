@@ -22,7 +22,7 @@ class Spaceship:
             
     def move_left(self):
         print("left")
-        if self.rect.left > 50:
+        if self.rect.left > 0:
             self.rect.x -= 10
         else:
             self.rect.x = SCREEN_WIDTH - self.rect.width
