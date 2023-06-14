@@ -2,7 +2,7 @@ import pygame
 
 from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
 
-from game.components.enemies.Enemy import EnemyManager
+from game.components.enemies.enemy_manager import EnemyManager
 from game.components.spaceship import Spaceship
 
 class Game:

@@ -39,7 +39,7 @@ class Enemy(Sprite):
         if self.rect.y >= SCREEN_HEIGHT:
             ships.remove(self)
             
-        self.update.movement()
+        self.update_movement()
             
             
     def update_movement(self):
