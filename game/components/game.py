@@ -1,5 +1,6 @@
 import pygame
 
+from game.components.you_died import YouDied
 from game.components.menu import Menu
 from game.utils.constants import BG, FONT_STYLE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
 from game.components.bullets.bullet_manager import BulletManager
@@ -26,6 +27,7 @@ class Game:
         self.bullet_manager = BulletManager()
         
         self.menu = Menu("Press enter to start", 32)
+        self.max_score = 0  # Agregar el atributo max_score
 
     def run(self):
         # Game loop: events - update - draw
@@ -33,19 +35,23 @@ class Game:
         while self.running:
             if not self.playing:
                 self.show_menu()
-                
-        pygame.display.quit()
+            
         pygame.quit()
 
-    def play(self):
+
+    def play(self, score):
         self.enemy_manager.reset()
         self.playing = True
-        self.score = 0
+        self.score = score
         while self.playing:
             self.events()
             self.update()
             self.draw()
+        you_died_screen = YouDied(self.score, self.max_score)
+        you_died_screen.run()
+        self.reset()
         
+
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -60,7 +66,7 @@ class Game:
 
     def draw(self):
         self.clock.tick(FPS)
-        self.screen.fill((255, 255, 255))
+        self.screen.fill((255, 248, 2))
         self.draw_background()
         self.draw_score()
         self.player.draw(self.screen)
@@ -84,16 +90,46 @@ class Game:
         text = font.render(f"Score: {self.score}", True, (244, 218, 4))
         text_rect = text.get_rect()
         text_rect.center = (1000, 50)
-        self.screen.blit (text, text_rect)
+        self.screen.blit(text, text_rect)
+     
+    def show_menu(self):
+        if self.death_count > 0:
+            self.menu.update_message("GAME OVER")
+
+        self.menu.draw(self.screen)
+        self.menu.events(self.on_close, lambda: self.play(0))  # Pasar la puntuación como argumento
+        
+        
+    def on_close(self):
+        self.playing = False
+        self.running = False    
+        
+    def reset(self):
+        self.player = Spaceship()
+        self.enemy_manager = EnemyManager()
+        self.bullet_manager = BulletManager()
+        self.score = 0
+        if self.score > self.max_score:
+            self.max_score = self.score
+        self.death_count = 0
+        self.playing = False
+        self.score = 0
+        self.death_count += 1
+        self.enemy_manager.reset()
+        if self.score > self.max_score:
+            self.max_score = self.score
         
         
     def show_menu(self):
         if self.death_count > 0:
             self.menu.update_message("GAME OVER")
-            
-        self.menu.draw(self.screen)
-        self.menu.events(self.on_close, self.play)
+            self.reset()  # Reiniciar el juego antes de mostrar el menú
+            self.score = 0  # Reiniciar la puntuación a 0
         
-    def on_close(self):
-        self.playing = False
-        self.running = False        
+        while not self.playing:
+            self.menu.draw(self.screen)
+            self.menu.events(self.on_close, self.start_game)
+        
+
+    def start_game(self):
+        self.play(0)  # Iniciar el juego con una puntuación inicial de 0
