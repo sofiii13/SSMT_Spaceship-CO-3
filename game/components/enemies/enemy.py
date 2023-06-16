@@ -28,7 +28,7 @@ class Enemy(Sprite):
             IMAGE: ENEMY_2,
             SPEED_X: 5,
             SPEED_Y: 2,
-            MOVE_X: (50, 120)
+            MOVE_X: (67, 150)
         }
     }
     
