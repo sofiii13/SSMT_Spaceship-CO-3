@@ -17,6 +17,7 @@ class Menu:
     def events(self, on_close, on_start):
         for event  in pygame.event.get():
             if event.type == pygame.QUIT:
+                print("ww")
                 on_close()
             elif event.type == pygame.KEYDOWN:
                 on_start()

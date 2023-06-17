@@ -4,7 +4,6 @@ from game.utils.constants import SCREEN_WIDTH, SCREEN_HEIGHT
 
 class YouDied:
     def __init__(self, score, max_score):
-        pygame.init()
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.font_large = pygame.font.Font(None, 60)
         self.font_small = pygame.font.Font(None, 36)
@@ -22,12 +21,13 @@ class YouDied:
         self.text_max_score_rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 150)
         self.restart = False
 
-    def run(self):
+    def run(self, game):
         running = True
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+                    game.running = False
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         if self.restart:
@@ -43,4 +43,3 @@ class YouDied:
             self.screen.blit(self.restart_text, self.restart_text_rect)
             pygame.display.flip()
 
-        pygame.quit()

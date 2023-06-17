@@ -17,7 +17,6 @@ class Spaceship:
     def update(self, user_input, game):
         if user_input[pygame.K_a]:
             self.move_left()
-            print(user_input)
         elif user_input[pygame.K_d]:
             self.move_right()
         elif user_input[pygame.K_w]:
@@ -28,26 +27,22 @@ class Spaceship:
             self.fire_bullet(game.bullet_manager)
             
     def move_left(self):
-        print("left")
         if self.rect.left > 0:
             self.rect.x -= 10
         else:
             self.rect.x = SCREEN_WIDTH - self.rect.width
     
     def move_right(self):
-        print("right")
         if self.rect.right < SCREEN_WIDTH:
             self.rect.x += 10
         else:
             self.rect.x = 0
             
     def move_up(self):
-        print("up")
         if self.rect.top > SCREEN_HEIGHT //  2:
             self.rect.y -= 10
             
     def move_down(self):
-        print("down")
         if self.rect.bottom < SCREEN_HEIGHT - 50:
             self.rect.y += 10
             

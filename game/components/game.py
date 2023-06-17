@@ -33,6 +33,7 @@ class Game:
         # Game loop: events - update - draw
         self.running = True
         while self.running:
+            print(self.running, self.playing)
             if not self.playing:
                 self.show_menu()
             
@@ -47,9 +48,10 @@ class Game:
             self.events()
             self.update()
             self.draw()
-        you_died_screen = YouDied(self.score, self.max_score)
-        you_died_screen.run()
         self.reset()
+        you_died_screen = YouDied(self.score, self.max_score)
+        you_died_screen.run(self)
+        
         
 
     def events(self):
@@ -97,6 +99,7 @@ class Game:
             self.menu.update_message("GAME OVER")
 
         self.menu.draw(self.screen)
+        print(" hh")
         self.menu.events(self.on_close, lambda: self.play(0))  # Pasar la puntuación como argumento
         
         
@@ -108,16 +111,11 @@ class Game:
         self.player = Spaceship()
         self.enemy_manager = EnemyManager()
         self.bullet_manager = BulletManager()
-        self.score = 0
         if self.score > self.max_score:
             self.max_score = self.score
-        self.death_count = 0
         self.playing = False
-        self.score = 0
-        self.death_count += 1
         self.enemy_manager.reset()
-        if self.score > self.max_score:
-            self.max_score = self.score
+
         
         
     def show_menu(self):
