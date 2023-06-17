@@ -6,7 +6,7 @@ from game.utils.constants import BG, FONT_STYLE, ICON, SCREEN_HEIGHT, SCREEN_WID
 from game.components.bullets.bullet_manager import BulletManager
 from game.components.enemies.enemy_manager import EnemyManager
 from game.components.spaceship import Spaceship
-
+from game.components.powerups.manager import Manager
 class Game:
     def __init__(self):
         pygame.init()
@@ -28,6 +28,7 @@ class Game:
         
         self.menu = Menu("Press enter to start", 32)
         self.max_score = 0  # Agregar el atributo max_score
+        self.power_up_manager = Manager()
 
     def run(self):
         # Game loop: events - update - draw
@@ -65,6 +66,8 @@ class Game:
         self.player.update(user_input, self)
         self.enemy_manager.update(self)
         self.bullet_manager.update(self)
+        self.power_up_manager.update(self)
+        
 
     def draw(self):
         self.clock.tick(FPS)
@@ -74,6 +77,7 @@ class Game:
         self.player.draw(self.screen)
         self.enemy_manager.draw(self.screen)
         self.bullet_manager.draw(self.screen)
+        self.power_up_manager.draw(self.screen)
         pygame.display.update()
         pygame.display.flip()
 
@@ -115,6 +119,7 @@ class Game:
             self.max_score = self.score
         self.playing = False
         self.enemy_manager.reset()
+        self.power_up_manager.reset()
 
         
         

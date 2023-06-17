@@ -1,5 +1,5 @@
 from game.components.powerups.power_up import PowerUp
-from game.components import SHIELD, SHIELD_TYPE
+from game.utils.constants import SHIELD, SHIELD_TYPE
 
 
 class Shield(PowerUp):

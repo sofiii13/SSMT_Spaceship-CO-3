@@ -3,7 +3,7 @@ import random
 from pygame.sprite import Sprite
 from game.components.bullets.bullet import Bullet
 from game.components.bullets.bullet_manager import BulletManager
-from game.utils.constants import SPACESHIP, SCREEN_WIDTH, SCREEN_HEIGHT, SPACESHIP_TYPE
+from game.utils.constants import SPACESHIP, SCREEN_WIDTH, SCREEN_HEIGHT, SPACESHIP_TYPE, DEFAULT_TYPE
 
 class Spaceship:
     def __init__(self):
@@ -13,6 +13,9 @@ class Spaceship:
         self.rect.y = 500
         self.shooting_time = random.randint(40, 60)
         self.type = SPACESHIP_TYPE
+        self.power_up_type = DEFAULT_TYPE
+        self.has_power_up = False
+        self.power_up_time = 0
 
     def update(self, user_input, game):
         if user_input[pygame.K_a]:
@@ -55,4 +58,7 @@ class Spaceship:
         jls_extract_var = (self.rect.x, self.rect.y)
         screen.blit(self.image, self.rect)
 
+    def set_image(self, size = (40, 60), image = SPACESHIP):
+        self.image = image
+        self.image = pygame.transform.scale(self.image, size)
         

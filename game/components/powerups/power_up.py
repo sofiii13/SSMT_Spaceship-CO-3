@@ -1,15 +1,15 @@
 import random
 from pygame.sprite import Sprite
-from game.utils.constants import FONT_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT, ICON
+from game.utils.constants import SCREEN_HEIGHT
 
 class PowerUp(Sprite):
     def __init__(self, image, type):
         self.image = image
         self.type = type
         self.rect = self.image.get_rect()
-        self.rect.x = random.randint(120, SCREEN_ HEIGHT -120)
+        self.rect.x = random.randint(120, SCREEN_HEIGHT - 120)
         self.rect.y = 0
-        self
+        self.start_time = 0
         
     def update(self, speed, power_ups):
         self.rect.y += speed
@@ -18,5 +18,3 @@ class PowerUp(Sprite):
             
     def draw(self, screen):
         screen.blit(self.image, self.rect)
-        
-        
