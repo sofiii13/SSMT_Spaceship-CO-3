@@ -1,9 +1,10 @@
 import pygame
 import random
+import pygame.mixer
 from pygame.sprite import Sprite
 from game.components.bullets.bullet import Bullet
 from game.components.bullets.bullet_manager import BulletManager
-from game.utils.constants import SPACESHIP, SCREEN_WIDTH, SCREEN_HEIGHT, SPACESHIP_TYPE, DEFAULT_TYPE
+from game.utils.constants import SPACESHIP, SCREEN_WIDTH, SCREEN_HEIGHT, SPACESHIP_TYPE, DEFAULT_TYPE, BULLETS_SING_ENEMY
 
 class Spaceship:
     def __init__(self):
@@ -18,16 +19,20 @@ class Spaceship:
         self.power_up_time = 0
 
     def update(self, user_input, game):
-        if user_input[pygame.K_a]:
-            self.move_left()
-        elif user_input[pygame.K_d]:
-            self.move_right()
-        elif user_input[pygame.K_w]:
-            self.move_up()
-        elif user_input[pygame.K_s]:
-            self.move_down()
-        elif user_input[pygame.K_z]:
-            self.fire_bullet(game.bullet_manager)
+        current_time = pygame.time.get_ticks()
+
+        if not self.has_power_up or current_time - self.power_up_time < 10000:
+            if user_input[pygame.K_a]:
+                self.move_left()
+            elif user_input[pygame.K_d]:
+                self.move_right()
+            elif user_input[pygame.K_w]:
+                self.move_up()
+            elif user_input[pygame.K_s]:
+                self.move_down()
+            elif user_input[pygame.K_z]:
+                self.fire_bullet(game.bullet_manager)
+              
             
     def move_left(self):
         if self.rect.left > 0:
@@ -53,12 +58,12 @@ class Spaceship:
         bullet = Bullet(self)
         bullet_manager.add_bullet(bullet)
         print(len(bullet_manager.spaceship_bullets))
+        sound = pygame.mixer.Sound(BULLETS_SING_ENEMY)
+        pygame.mixer.Sound.play(sound)
         
     def draw(self, screen):
-        jls_extract_var = (self.rect.x, self.rect.y)
         screen.blit(self.image, self.rect)
 
-    def set_image(self, size = (40, 60), image = SPACESHIP):
-        self.image = image
-        self.image = pygame.transform.scale(self.image, size)
-        
+    def set_image(self, size=(40, 60), image=SPACESHIP):
+        self.image = pygame.transform.scale(image, size)
+
